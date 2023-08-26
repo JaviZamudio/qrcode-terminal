@@ -1,4 +1,4 @@
-# QRCode Terminal Edition [![Build Status][travis-ci-img]][travis-ci-url]
+# QRCode Terminal Edition
 
 > Going where no QRCode has gone before.
 
