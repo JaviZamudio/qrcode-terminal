@@ -3,7 +3,7 @@
 /*!
  * Module dependencies.
  */
-import qrcode from '../lib/main';
+import { generate } from '../lib/main';
 import path from 'path';
 import fs from 'fs';
 
@@ -24,7 +24,7 @@ if (process.stdin.isTTY) {
 
     let args = process.argv.slice(2);
     let input = args[args.length - 1];
-    let opts = {};
+    let opts: { small: boolean } = { small: false };
     args.forEach(function (arg) {
         if (arg === '-h' || arg === '--help') {
             help();
@@ -54,7 +54,7 @@ if (process.stdin.isTTY) {
         terminal: false
     });
 
-    intfce.on('line', function (line) {
+    intfce.on('line', function (line: any) {
         handleInput(line);
     });
 }
@@ -63,12 +63,12 @@ if (process.stdin.isTTY) {
  * Process the input
  */
 
-function handleInput(input, opts) {
+function handleInput(input: string, opts?: { small: boolean; } | undefined) {
     /*!
      * Render the QR Code
      */
 
-    qrcode.generate(input, opts);
+    generate(input, opts);
 }
 
 /*!
@@ -96,7 +96,7 @@ function help() {
 
 function version() {
     var packagePath = path.join(__dirname, '..', 'package.json'),
-        packageJSON = JSON.parse(fs.readFileSync(packagePath), 'utf8');
+        packageJSON = JSON.parse(fs.readFileSync(packagePath).toString());
 
     console.log(packageJSON.version);
 }

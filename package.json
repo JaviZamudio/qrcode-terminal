@@ -1,6 +1,6 @@
 {
   "name": "terminal-qr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "qr",
     "qrcode",
@@ -14,8 +14,9 @@
     "qr": "./dist/bin/qrcode-terminal.js"
   },
   "scripts": {
+    "dev": "tsc && npx qr -s 'hola'",
     "build": "tsc",
-    "test": "tsc && npx qr -s 'hola'"
+    "start": "npx qr -s 'hola'"
   },
   
   "dependencies": {

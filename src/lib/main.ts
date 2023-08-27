@@ -23,81 +23,73 @@ var
 
 import QRCode from './../vendor/QRCode';
 
-module.exports = {
+export const error = QRErrorCorrectLevel.L;
 
-    error: QRErrorCorrectLevel.L,
-
-    generate: function (input: any, opts: string | any, cb: (arg0: string) => void) {
-        if (typeof opts === 'function') {
-            cb = opts;
-            opts = {};
-        }
-
-        var qrcode = new QRCode(-1, this.error);
-        qrcode.addData(input);
-        qrcode.make();
-
-        var output = '';
-        if (opts && opts.small) {
-            var BLACK = true, WHITE = false;
-            var moduleCount = qrcode.getModuleCount();
-            var moduleData = qrcode.modules!.slice();
-
-            var oddRow = moduleCount % 2 === 1;
-            if (oddRow) {
-                moduleData.push(fill(moduleCount, WHITE));
-            }
-
-            var platte = {
-                WHITE_ALL: '\u2588',
-                WHITE_BLACK: '\u2580',
-                BLACK_WHITE: '\u2584',
-                BLACK_ALL: ' ',
-            };
-
-            var borderTop = repeat(platte.BLACK_WHITE).times(moduleCount + 3);
-            var borderBottom = repeat(platte.WHITE_BLACK).times(moduleCount + 3);
-            output += borderTop + '\n';
-
-            for (var row = 0; row < moduleCount; row += 2) {
-                output += platte.WHITE_ALL;
-
-                for (var col = 0; col < moduleCount; col++) {
-                    if (moduleData[row][col] === WHITE && moduleData[row + 1][col] === WHITE) {
-                        output += platte.WHITE_ALL;
-                    } else if (moduleData[row][col] === WHITE && moduleData[row + 1][col] === BLACK) {
-                        output += platte.WHITE_BLACK;
-                    } else if (moduleData[row][col] === BLACK && moduleData[row + 1][col] === WHITE) {
-                        output += platte.BLACK_WHITE;
-                    } else {
-                        output += platte.BLACK_ALL;
-                    }
-                }
-
-                output += platte.WHITE_ALL + '\n';
-            }
-
-            if (!oddRow) {
-                output += borderBottom;
-            }
-        } else {
-            var border = repeat(white).times(qrcode.getModuleCount() + 3);
-
-            output += border + '\n';
-            qrcode.modules!.forEach(function (row: any[]) {
-                output += white;
-                output += row.map(toCell).join('');
-                output += white + '\n';
-            });
-            output += border;
-        }
-
-        if (cb) cb(output);
-        else console.log(output);
-    },
-
-    setErrorLevel: function (error: string | number) {
-        this.error = QRErrorCorrectLevel[error] || this.error;
+export function generate(input: any, opts?: string | any, cb?: (arg0: string) => void) {
+    if (typeof opts === 'function') {
+        cb = opts;
+        opts = {};
     }
 
-};
+    var qrcode = new QRCode(-1, error);
+    qrcode.addData(input);
+    qrcode.make();
+
+    var output = '';
+    if (opts && opts.small) {
+        var BLACK = true, WHITE = false;
+        var moduleCount = qrcode.getModuleCount();
+        var moduleData = qrcode.modules!.slice();
+
+        var oddRow = moduleCount % 2 === 1;
+        if (oddRow) {
+            moduleData.push(fill(moduleCount, WHITE));
+        }
+
+        var platte = {
+            WHITE_ALL: '\u2588',
+            WHITE_BLACK: '\u2580',
+            BLACK_WHITE: '\u2584',
+            BLACK_ALL: ' ',
+        };
+
+        var borderTop = repeat(platte.BLACK_WHITE).times(moduleCount + 3);
+        var borderBottom = repeat(platte.WHITE_BLACK).times(moduleCount + 3);
+        output += borderTop + '\n';
+
+        for (var row = 0; row < moduleCount; row += 2) {
+            output += platte.WHITE_ALL;
+
+            for (var col = 0; col < moduleCount; col++) {
+                if (moduleData[row][col] === WHITE && moduleData[row + 1][col] === WHITE) {
+                    output += platte.WHITE_ALL;
+                } else if (moduleData[row][col] === WHITE && moduleData[row + 1][col] === BLACK) {
+                    output += platte.WHITE_BLACK;
+                } else if (moduleData[row][col] === BLACK && moduleData[row + 1][col] === WHITE) {
+                    output += platte.BLACK_WHITE;
+                } else {
+                    output += platte.BLACK_ALL;
+                }
+            }
+
+            output += platte.WHITE_ALL + '\n';
+        }
+
+        if (!oddRow) {
+            output += borderBottom;
+        }
+    } else {
+        var border = repeat(white).times(qrcode.getModuleCount() + 3);
+
+        output += border + '\n';
+        qrcode.modules!.forEach(function (row: any[]) {
+            output += white;
+            output += row.map(toCell).join('');
+            output += white + '\n';
+        });
+        output += border;
+    }
+
+    if (cb) cb(output);
+    else console.log(output);
+}
