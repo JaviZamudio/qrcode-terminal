@@ -8,10 +8,10 @@
   ],
   "version": "0.12.0",
   "description": "QRCodes, in the terminal",
-  "homepage": "https://github.com/gtanner/qrcode-terminal",
+  "homepage": " https://github.com/JaviZamudio/qrcode-terminal",
   "repository": {
     "type": "git",
-    "url": "https://github.com/gtanner/qrcode-terminal"
+    "url": " https://github.com/JaviZamudio/qrcode-terminal"
   },
   "contributors": [
     {
@@ -23,18 +23,17 @@
       "name": "Michael Brooks",
       "email": "mikeywbrooks@gmail.com",
       "url": "http://github.com/mwbrooks"
-    }
-  ],
-  "licenses": [
+    },
     {
-      "type": "Apache 2.0"
+      "name": "Javier Zamudio",
+      "email": "javier.elihu100@gmail.com",
+      "url": "https://github.com/JaviZamudio"
     }
   ],
-  "main": "./lib/main",
+  "main": "./dist/lib/main",
   "bin": {
-    "qrcode-terminal": "./bin/qrcode-terminal.js"
+    "qr": "./dist/bin/qrcode-terminal.js"
   },
-  "preferGlobal": false,
   "devDependencies": {
     "expect.js": "*",
     "jshint": "*",
@@ -42,7 +41,7 @@
     "sinon": "*"
   },
   "scripts": {
-    "test": "./node_modules/jshint/bin/jshint lib vendor && node example/basic.js && ./node_modules/mocha/bin/mocha -R nyan"
+    "build": "tsc"
   },
   "dependencies": {
     "typescript": "^5.2.2"

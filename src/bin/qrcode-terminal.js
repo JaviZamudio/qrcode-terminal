@@ -3,10 +3,10 @@
 /*!
  * Module dependencies.
  */
+import qrcode from '../lib/main';
+import path from 'path';
+import fs from 'fs';
 
-var qrcode = require('../lib/main'),
-    path = require('path'),
-    fs = require('fs');
 
 /*!
  * Parse the process name
@@ -22,21 +22,39 @@ if (process.stdin.isTTY) {
     // called with input as argument, e.g.:
     // ./qrcode-terminal.js "INPUT"
 
-    var input = process.argv[2];
-    handleInput(input);
+    let args = process.argv.slice(2);
+    let input = args[args.length - 1];
+    let opts = {};
+    args.forEach(function (arg) {
+        if (arg === '-h' || arg === '--help') {
+            help();
+            process.exit();
+        }
+
+        if (arg === '-v' || arg === '--version') {
+            version();
+            process.exit();
+        }
+
+        if (arg === '-s' || arg === '--small') {
+            opts.small = true;
+        }
+    });
+
+    handleInput(input, opts);
 } else {
     // called with piped input, e.g.:
     // echo "INPUT" | ./qrcode-terminal.js
 
     var readline = require('readline');
 
-    var interface = readline.createInterface({
+    var intfce = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
         terminal: false
     });
 
-    interface.on('line', function(line) {
+    intfce.on('line', function (line) {
         handleInput(line);
     });
 }
@@ -45,31 +63,12 @@ if (process.stdin.isTTY) {
  * Process the input
  */
 
-function handleInput(input) {
-
-    /*!
-     * Display help
-     */
-
-    if (!input || input === '-h' || input === '--help') {
-        help();
-        process.exit();
-    }
-
-    /*!
-     * Display version
-     */
-
-    if (input === '-v' || input === '--version') {
-        version();
-        process.exit();
-    }
-
+function handleInput(input, opts) {
     /*!
      * Render the QR Code
      */
 
-    qrcode.generate(input);
+    qrcode.generate(input, opts);
 }
 
 /*!
@@ -79,16 +78,18 @@ function handleInput(input) {
 function help() {
     console.log([
         '',
-        'Usage: ' + name + ' <message>',
+        'Usage: ' + name + ' [options] <input>',
         '',
         'Options:',
         '  -h, --help           output usage information',
         '  -v, --version        output version number',
+        '  -s, --small          render a smaller QR Code',
         '',
         'Examples:',
         '',
         '  $ ' + name + ' hello',
         '  $ ' + name + ' "hello world"',
+        '  $ ' + name + ' -s "hello world"',
         ''
     ].join('\n'));
 }
