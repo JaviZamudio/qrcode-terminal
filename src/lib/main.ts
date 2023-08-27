@@ -2,17 +2,17 @@ var QRCode = require('./../vendor/QRCode'),
     QRErrorCorrectLevel = require('./../vendor/QRCode/QRErrorCorrectLevel'),
     black = "\x1b[40m  \x1b[0m",
     white = "\x1b[47m  \x1b[0m",
-    toCell = function (isBlack) {
+    toCell = function (isBlack: any) {
         return isBlack ? black : white;
     },
-    repeat = function (color) {
+    repeat = function (color: string | undefined) {
         return {
-            times: function (count) {
+            times: function (count: any) {
                 return new Array(count).join(color);
             }
         };
     },
-    fill = function(length, value) {
+    fill = function(length: number, value: boolean) {
         var arr = new Array(length);
         for (var i = 0; i < length; i++) {
             arr[i] = value;
@@ -24,7 +24,7 @@ module.exports = {
 
     error: QRErrorCorrectLevel.L,
 
-    generate: function (input, opts, cb) {
+    generate: function (input: any, opts: string | any, cb: (arg0: string) => void) {
         if (typeof opts === 'function') {
             cb = opts;
             opts = {};
@@ -81,7 +81,7 @@ module.exports = {
             var border = repeat(white).times(qrcode.getModuleCount() + 3);
 
             output += border + '\n';
-            qrcode.modules.forEach(function (row) {
+            qrcode.modules.forEach(function (row: any[]) {
                 output += white;
                 output += row.map(toCell).join(''); 
                 output += white + '\n';
@@ -93,7 +93,7 @@ module.exports = {
         else console.log(output);
     },
 
-    setErrorLevel: function (error) {
+    setErrorLevel: function (error: string | number) {
         this.error = QRErrorCorrectLevel[error] || this.error;
     }
 
