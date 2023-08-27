@@ -1,22 +1,19 @@
-var QRMode = require('./QRMode');
+import { MODE_8BIT_BYTE } from './QRMode';
 
-function QR8bitByte(data) {
-	this.mode = QRMode.MODE_8BIT_BYTE;
-	this.data = data;
-}
-
-QR8bitByte.prototype = {
-
-	getLength : function() {
+class QR8bitByte {
+	constructor(data) {
+		this.mode = MODE_8BIT_BYTE;
+		this.data = data;
+	}
+	getLength() {
 		return this.data.length;
-	},
-	
-	write : function(buffer) {
+	}
+	write(buffer) {
 		for (var i = 0; i < this.data.length; i++) {
 			// not JIS ...
 			buffer.put(this.data.charCodeAt(i), 8);
 		}
 	}
-};
+}
 
-module.exports = QR8bitByte;
+export default QR8bitByte;
