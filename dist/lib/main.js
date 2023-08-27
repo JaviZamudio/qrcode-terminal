@@ -1,5 +1,11 @@
 "use strict";
-var QRCode = require('./../vendor/QRCode'), QRErrorCorrectLevel = require('./../vendor/QRCode/QRErrorCorrectLevel'), black = "\x1b[40m  \x1b[0m", white = "\x1b[47m  \x1b[0m", toCell = function (isBlack) {
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var 
+// QRCode = require('./../vendor/QRCode'),
+QRErrorCorrectLevel = require('./../vendor/QRCode/QRErrorCorrectLevel'), black = "\x1b[40m  \x1b[0m", white = "\x1b[47m  \x1b[0m", toCell = function (isBlack) {
     return isBlack ? black : white;
 }, repeat = function (color) {
     return {
@@ -14,6 +20,7 @@ var QRCode = require('./../vendor/QRCode'), QRErrorCorrectLevel = require('./../
     }
     return arr;
 };
+const QRCode_1 = __importDefault(require("./../vendor/QRCode"));
 module.exports = {
     error: QRErrorCorrectLevel.L,
     generate: function (input, opts, cb) {
@@ -21,7 +28,7 @@ module.exports = {
             cb = opts;
             opts = {};
         }
-        var qrcode = new QRCode(-1, this.error);
+        var qrcode = new QRCode_1.default(-1, this.error);
         qrcode.addData(input);
         qrcode.make();
         var output = '';

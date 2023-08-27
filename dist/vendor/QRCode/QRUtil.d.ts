@@ -9,5 +9,5 @@ export function getBCHDigit(data: any): number;
 export function getPatternPosition(typeNumber: any): number[];
 export function getMask(maskPattern: any, i: any, j: any): boolean;
 export function getErrorCorrectPolynomial(errorCorrectLength: any): QRPolynomial;
-export function getLengthInBits(mode: any, type: any): 8 | 16 | 13 | 9 | 11 | 12 | 14 | 10;
+export function getLengthInBits(mode: any, type: any): 8 | 10 | 12 | 11 | 9 | 14 | 16 | 13;
 export function getLostPoint(qrCode: any): number;

@@ -1,4 +1,5 @@
-var QRCode = require('./../vendor/QRCode'),
+var
+    // QRCode = require('./../vendor/QRCode'),
     QRErrorCorrectLevel = require('./../vendor/QRCode/QRErrorCorrectLevel'),
     black = "\x1b[40m  \x1b[0m",
     white = "\x1b[47m  \x1b[0m",
@@ -12,13 +13,15 @@ var QRCode = require('./../vendor/QRCode'),
             }
         };
     },
-    fill = function(length: number, value: boolean) {
+    fill = function (length: number, value: boolean) {
         var arr = new Array(length);
         for (var i = 0; i < length; i++) {
             arr[i] = value;
         }
         return arr;
     };
+
+import QRCode from './../vendor/QRCode';
 
 module.exports = {
 
@@ -38,14 +41,14 @@ module.exports = {
         if (opts && opts.small) {
             var BLACK = true, WHITE = false;
             var moduleCount = qrcode.getModuleCount();
-            var moduleData = qrcode.modules.slice();
+            var moduleData = qrcode.modules!.slice();
 
             var oddRow = moduleCount % 2 === 1;
             if (oddRow) {
                 moduleData.push(fill(moduleCount, WHITE));
             }
 
-            var platte= {
+            var platte = {
                 WHITE_ALL: '\u2588',
                 WHITE_BLACK: '\u2580',
                 BLACK_WHITE: '\u2584',
@@ -81,9 +84,9 @@ module.exports = {
             var border = repeat(white).times(qrcode.getModuleCount() + 3);
 
             output += border + '\n';
-            qrcode.modules.forEach(function (row: any[]) {
+            qrcode.modules!.forEach(function (row: any[]) {
                 output += white;
-                output += row.map(toCell).join(''); 
+                output += row.map(toCell).join('');
                 output += white + '\n';
             });
             output += border;
